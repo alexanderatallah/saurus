@@ -1,0 +1,16 @@
+<template name="entitiesItem">
+  <div class="entity">
+    <div class="entity-content">
+      <h4>{{name}}</h4>
+    </div>
+    <div class="entity-properties">
+      <ul>
+        {{#each properties}}
+          <li>{{description}}</li>
+        {{/each}}
+      </ul>
+    </div>
+    <div class="entity-links">
+    </div>
+  </div>
+</template>
