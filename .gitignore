@@ -2,3 +2,4 @@
 .meteor/meteorite
 *.lock
 *.DS_Store
+node_modules
