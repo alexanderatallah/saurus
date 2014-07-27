@@ -1,4 +1,5 @@
 throttledMeteorCall = _.throttle(Meteor.call, 2000)
+NO_SUMMARY_AVAILABLE = 'No Wikipedia summary available'
 
 Template.wikipedia.wikipediaTitle = ->
     wordIndex = Session.get('currWordIndex')
@@ -45,28 +46,35 @@ Template.wikipedia.wikipediaText = ->
 
     url = "http://en.wikipedia.org/w/api.php?action=parse&page=" + encodeURIComponent(wikipediaEntry.title)  + "&prop=text&section=0&format=json&callback=?"
 
+    findingEntry = wikipediaEntry.title
+
     $.getJSON url, (data) ->
-      for text of data.parse.text
-        text = data.parse.text[text].split("<p>")
-        pText = ""
-        for p of text
+        newWikipediaEntry = Session.get('wikipediaEntry')
+        if findingEntry != newWikipediaEntry.title
+            Session.set('wikipediaText', NO_SUMMARY_AVAILABLE)
+            return
+        for text of data.parse.text
+            text = data.parse.text[text].split("<p>")
+            pText = ""
+            for p of text
+                text[p] = text[p].split("<!--")
+                if text[p].length > 1
+                    text[p][0] = text[p][0].split(/\r\n|\r|\n/)
+                    text[p][0] = text[p][0][0]
+                    text[p][0] += "</p> "
+                text[p] = text[p][0]
 
-          text[p] = text[p].split("<!--")
-          if text[p].length > 1
-            text[p][0] = text[p][0].split(/\r\n|\r|\n/)
-            text[p][0] = text[p][0][0]
-            text[p][0] += "</p> "
-          text[p] = text[p][0]
-
-          if text[p].indexOf("</p>") is text[p].length - 5
-            htmlStrip = text[p].replace(/<(?:.|\n)*?>/g, "")
-            splitNewline = htmlStrip.split(/\r\n|\r|\n/)
-            for newline of splitNewline
-              unless splitNewline[newline].substring(0, 11) is "Cite error:"
-                pText += splitNewline[newline]
-                pText += "\n"
-        pText = pText.substring(0, pText.length - 2)
-        pText = pText.replace(/\[\d+\]/g, "")
+                if text[p].indexOf("</p>") is text[p].length - 5
+                    htmlStrip = text[p].replace(/<(?:.|\n)*?>/g, "")
+                    splitNewline = htmlStrip.split(/\r\n|\r|\n/)
+                    for newline of splitNewline
+                        unless splitNewline[newline].substring(0, 11) is "Cite error:"
+                            pText += splitNewline[newline]
+                            pText += "\n"
+            pText = pText.substring(0, pText.length - 2)
+            pText = pText.replace(/\[\d+\]/g, "")
+        if !pText
+            pText = NO_SUMMARY_AVAILABLE
         Session.set('wikipediaText', pText)
         return pText
     wikipediaText = Session.get('wikipediaText')
