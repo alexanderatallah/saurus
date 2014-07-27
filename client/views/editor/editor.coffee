@@ -3,16 +3,14 @@ Session.set("selectedWord", "")
 
 lastCode = -1
 
-prevLoc = 0
-
 Template.editor.events({
-  'keyup .text-input': (e) =>
+  'keydown .text-input': (e) =>
     if e.keyCode is 40 or e.keyCode is 38
       trySynonymUpdate(e, e.keyCode is 40)
     if e.keyCode is 13
       trySynonymEnter(e)
+  'keyup .text-input': (e) =>
     updateText()
-    prevLoc = window.getSelection().getRangeAt(0).startOffset
   'click .text-input': (e) =>
     updateText()
 })
@@ -28,7 +26,7 @@ trySynonymEnter = (e, loc) =>
   return if curr is -1
 
   currWord = Session.get('words')[Session.get('currWordIndex')]
-  loc = prevLoc
+  loc = window.getSelection().getRangeAt(0).startOffset
   loc -= currWord.length
   text = $('.text-input').text()
   text = text.replace(currWord, syns[curr].syn)
