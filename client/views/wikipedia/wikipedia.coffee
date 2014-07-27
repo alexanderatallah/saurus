@@ -1,10 +1,16 @@
+throttledMeteorCall = _.throttle(Meteor.call, 2000)
+
 Template.wikipedia.wikipediaTitle = ->
     wordIndex = Session.get('currWordIndex')
     words = Session.get('words')
+    # console.log words
     if wordIndex && words
-        Meteor.call('getWikipediaEntity', wordIndex, words, (error, result) ->
-            return Session.set('wikipediaEntry', result)
-        )
+         throttledMeteorCall 'getWikipediaEntity', wordIndex, words, (error, result) ->
+            if not error
+                Session.set('wikipediaEntry', result)
+            else
+                Session.set('wikipediaEntry', null)
+
     wikipediaEntry = Session.get('wikipediaEntry')
     return wikipediaEntry.title if wikipediaEntry
     return ''
