@@ -63,7 +63,7 @@ Meteor.methods(
         taggedWords = new pos.Tagger().tag(words);
         for i in [0..wordIndex]
             word = words[i]
-            if /[\.,-\/#!?$%\^&\*;:{}=\-_`~]/g.test(word)
+            if /[\.,\/#!?$%\^&\*;:{}=\_`~]/g.test(word)
                 wordIndex += 1
 
         # console.log wordIndex
