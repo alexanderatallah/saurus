@@ -31,10 +31,6 @@ h1, .h1, h2, .h2, h3, .h3 {
   margin-bottom: 30px;
 }
 
-.selected {
-  border-bottom: 1px solid #979797;
-}
-
 .editor {
   position:relative;
 }
@@ -53,7 +49,7 @@ h1, .h1, h2, .h2, h3, .h3 {
 
 .wikipedia-image {
   max-width: 150px;
-  max-height: 200px;
+  max-height: 59px;
   float:left;
   margin:5px;
 }
@@ -78,13 +74,27 @@ h1, .h1, h2, .h2, h3, .h3 {
   background-image: -moz-linear-gradient(-89deg, #ffffff 0%, #f1f1f1 100%);
   background-image: -ms-linear-gradient(-89deg, #ffffff 0%, #f1f1f1 100%);
   background-image: linear-gradient(-179deg, #ffffff 0%, #f1f1f1 100%);
-  border: 2px solid #979797;
+  border: 1px solid #D3D3D3;
   -moz-box-shadow:    0px 2px 4px 0px rgba(0,0,0,0.50);
   box-shadow:         0px 2px 4px 0px rgba(0,0,0,0.50);
+  overflow-y: auto;
 }
 
 .popup-content {
-  padding:5px;
+  .synonym {
+    padding: 7px 10px;
+    border-bottom: 1px solid rgb(228, 228, 228);
+
+    &.selected {
+      background-color: rgb(215, 239, 255);
+    }
+  }
+  font-size: 13px;
+  color: rgb(92, 92, 92);
+
+  &.wiki-content {
+    padding: 5px 10px;
+  }
 }
 
 .popup-triangle {
@@ -93,7 +103,7 @@ h1, .h1, h2, .h2, h3, .h3 {
   margin-left:10px;
   border-style: solid;
   border-width: 0 15px 15px 15px;
-  border-color: transparent transparent #979797 transparent;
+  border-color: transparent transparent #CCCCCC transparent;
 }
 
 a {
@@ -105,20 +115,22 @@ a {
 }
 
 .lighter {
-  font-size: 14px;
+  font-size: 11px;
   font-weight: lighter;
 }
 
 .popup-header {
-  font-family: .LucidaGrandeUI;
-  font-size: 20px;
+  text-transform: uppercase;
+  font-weight: 100;
+  font-size: 16px;
+
   color: #252525;
   line-height: 12px;
   padding:8px;
 }
 
 .popup-border-bottom {
-  border-bottom: 2px solid #979797;
+  border-bottom: 1px solid rgb(228, 228, 228);
 }
 /* SYNONYMS: */
 

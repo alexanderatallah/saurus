@@ -10,6 +10,7 @@ Synonyms = function (text) {
 
   self.find = function (index) {
     var word = self.words[index];
+    if (!word) return;
     // remove punctuation from word
     word = word.replace(/[\.,-\/#!$%\^&\*;:{}=\-_`~()]/g,"");
 

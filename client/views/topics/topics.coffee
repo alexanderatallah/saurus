@@ -1,7 +1,10 @@
-Deps.autorun ->
-  words = Session.get 'words'
-  updateTopics(words) if words
+throttled = _.throttle ((words) =>
+  new Semantics(words.join(' ')).topics() if words), 10000
 
-updateTopics = _.throttle (words) ->
-  new Semantics(words.join(' ')).topics()
-, 10000
+Deps.autorun =>
+  words = Session.get 'words'
+  throttled(words)
+
+  # return if @last_run? and Date.now() - @last_run < 10000
+  # @last_run = Date.now()
+

@@ -16,5 +16,5 @@ Template.synonyms.hasGloss = (obj) =>
   return obj.gloss?.length > 4
 
 Template.synonyms.formatGloss = (gloss) =>
-  return gloss if gloss.length < 35
-  return gloss.substring(0, 32) + '...'
+  return gloss if gloss.length < 45
+  return gloss.substring(0, 42) + '...'
