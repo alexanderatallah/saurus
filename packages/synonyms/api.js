@@ -14,6 +14,7 @@ Synonyms = function (text) {
     word = word.replace(/[\.,-\/#!$%\^&\*;:{}=\-_`~()]/g,"");
 
     Meteor.call('synonyms', word, self.words, function(err, res) {
+      res = res.slice(0, 10)
       Session.set('synonyms', res);
     });
   }
