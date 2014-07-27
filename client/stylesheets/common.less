@@ -24,13 +24,21 @@ h1, .h1, h2, .h2, h3, .h3 {
   position:relative;
 }
 
-.text-input {
-  width: 500px;
-  height: 50px;
+.editor > div {
+  position:absolute;
+  width: 800px;
+  height: 500px;
   font-size: 40px;
   border: 1px solid #999;
   padding-left:10px;
+}
+
+.text-input {
   background-color: white;
+}
+
+.text-output {
+  pointer-events:none;
 }
 
 .title {

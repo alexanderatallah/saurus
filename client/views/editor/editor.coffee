@@ -10,6 +10,7 @@ Template.editor.events({
 
 updateText = =>
   text = $('.text-input').text() 
+  Session.set('text', text)
   loc = window.getSelection().getRangeAt(0).startOffset
   letters = text.split('')
   words = text.split(/\s+/)
@@ -29,3 +30,9 @@ updateText = =>
   while i > 0 and letters[i - 1] isnt ' '
     i = i - 1 
   Session.set('indexIntoCurrWord', loc - i)
+
+Template.editor.helpers({
+  computedOutputText: =>
+    text = "<span>" + Session.get('text') + "</span>"
+    return new Handlebars.SafeString(text.replace(/\s/g, '</span>&nbsp;<span>').replace(new RegExp('<span></span>', 'g'), ''))
+})
