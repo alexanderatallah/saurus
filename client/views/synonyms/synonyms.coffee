@@ -1,6 +1,7 @@
 Deps.autorun ->
   words = Session.get 'words'
   i = Session.get 'currWordIndex'
+  Session.set 'synonyms', null
   if words
     new Synonyms(words.join(' ')).find(i)
 

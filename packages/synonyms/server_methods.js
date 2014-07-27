@@ -7,6 +7,9 @@ var wordnet = new natural.WordNet();
 
 Meteor.methods({
   'synonyms': function(word, contextWords) {
+    check(word, String);
+    check(contextWords, Array);
+    
     var fut = new future();
 
     wordnet.lookup(word, function(results) {
@@ -79,6 +82,7 @@ function scoreSynonyms(senses, contextWords) {
       return -1 * scores[syn];
     })
     .map(function(syn) {
+      syn = syn.replace(/[_]/g," ")
       return {
         syn: syn,
         gloss: glosses[syn] || null,
