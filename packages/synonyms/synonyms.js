@@ -8,6 +8,7 @@ Synonyms = function (text) {
   self.words = text.split(/\s+/);
 
   self.find = function (index) {
+    Session.set('synonyms', null);
     Meteor.call('synonyms', self.words[index], self.words, function(err, res) {
       Session.set('synonyms', res);
     });
