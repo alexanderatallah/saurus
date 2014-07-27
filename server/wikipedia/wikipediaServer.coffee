@@ -35,7 +35,11 @@ Meteor.methods(
     getWikipediaEntity : (wordIndex, words) ->
         # wordIndex = 7
         # words = "I am driving to Mount Rushmore and Kansas State University very soon."
-        words = new pos.Lexer().lex(words.join(' '));
+
+        # console.log words, wordIndex
+        sentence = words.join(' ').replace(/[\.,-\/#!?$%\^&\*;:{}=\-_`~()]/g,"")
+        # console.log sentence
+        words = new pos.Lexer().lex(sentence);
         taggedWords = new pos.Tagger().tag(words);
 
         console.log taggedWords[wordIndex]
