@@ -37,7 +37,7 @@ Meteor.methods(
         # words = "I am driving to Mount Rushmore and Kansas State University very soon."
 
         # console.log words, wordIndex
-        sentence = words.join(' ').replace(/[\.,-\/#!?$%\^&\*;:{}=\-_`~()]/g,"")
+        sentence = words.join(' ').replace(/[\.,-\/#!'?$%\^&\*;:{}=\-_`~()]/g,"")
         # console.log sentence
         words = new pos.Lexer().lex(sentence);
         taggedWords = new pos.Tagger().tag(words);
