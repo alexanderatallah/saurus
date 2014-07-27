@@ -1,6 +1,8 @@
 Session.set("text", "")
 Session.set("selectedWord", "")
 
+lastCode = -1
+
 Template.editor.events({
   'keyup .text-input': (e) =>
     updateText()
@@ -34,5 +36,5 @@ updateText = =>
 Template.editor.helpers({
   computedOutputText: =>
     text = "<span>" + Session.get('text') + "</span>"
-    return new Handlebars.SafeString(text.replace(/\s/g, '</span>&nbsp;<span>').replace(new RegExp('<span></span>', 'g'), ''))
+    return new Handlebars.SafeString(text.replace(/\s/g, '</span> <span>').replace(new RegExp('<span></span>', 'g'), ''))
 })
