@@ -4,7 +4,7 @@ Template.wikipedia.wikipediaTitle = ->
     wordIndex = Session.get('currWordIndex')
     words = Session.get('words')
     # console.log words
-    if wordIndex != null && words
+    if wordIndex != null && words && words[wordIndex]
          throttledMeteorCall 'getWikipediaEntity', wordIndex, words, (error, result) ->
             if not error
                 Session.set('wikipediaEntry', result)
