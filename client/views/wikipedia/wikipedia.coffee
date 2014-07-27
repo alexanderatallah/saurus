@@ -9,6 +9,10 @@ Template.wikipedia.wikipediaTitle = ->
         return Session.get('wikipediaEntry').title
     return ''
 
+Template.wikipedia.hasNoEntry = ->
+    if Session.get('wikipediaEntry') and Session.get('wikipediaEntry') != false
+        return false
+    return true
 
 Template.wikipedia.wikipediaURL = ->
     if Session.get('wikipediaEntry')

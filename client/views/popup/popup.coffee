@@ -14,4 +14,7 @@ Template.popup.helpers({
     left = spans.eq(index).offset().left
     console.log 'left', left
     return left
+
+  hasNoEntry: =>
+    return !Session.get('wikipediaEntry')
 })
