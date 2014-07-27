@@ -5,6 +5,7 @@
  */
 Synonyms = function (text) {
   var self = this;
+  self.text = text;
   self.words = text.split(/\s+/);
 
   self.find = function (index) {
@@ -15,9 +16,22 @@ Synonyms = function (text) {
   }
 
   self.concepts = function () {
-    var concepts = Meteor.call('concepts', self.words);
+    var concepts = Meteor.call('concepts', self.text);
     return concepts;
   }
     
+  return self;
+}
+
+Semantics = function (text) {
+  var self = this;
+  self.text = text;
+
+  self.topics = function() {
+    Meteor.call('taxonomy', self.text, function(err, res) {
+      Session.set('topics', res);
+    });
+  }
+
   return self;
 }

@@ -18,29 +18,47 @@ Meteor.methods({
       //   console.log(result.gloss);
       // });
       var formatted = scoreSynonyms(results, contextWords);
-      console.log(formatted);
+      // console.log(formatted);
       fut.return(formatted);
     });
 
     return fut.wait();
   },
-  'entities': function(words, index) {
+  'entities': function(context) {
     var fut = new future();
-    alchemy.entities("text", words, {showSourceText: 1}, function(response) {
+    alchemy.entities("text", context, {showSourceText: 1}, function(response) {
       console.log(response);
       fut.return(response);
     });
     return fut.wait();
   },
-  'concepts': function(words, index) {
+  'concepts': function(context) {
     var fut = new future();
-    alchemy.concepts("text", words, {showSourceText: 1}, function(response) {
+    alchemy.concepts("text", context, {showSourceText: 1}, function(response) {
       console.log(response);
       fut.return(response);
     });
     return fut.wait();
+  },
+  'taxonomy': function(context) {
+    var fut = new future();
+    alchemy.taxonomy("text", context, {showSourceText: 1}, function(response) {
+      // console.log(response);
+      var topics = getTopics(response.taxonomy);
+      // console.log(topics);
+      fut.return(topics);
+    });
+    return fut.wait();
   }
 });
+
+function getTopics(taxonomy) {
+  return _.chain(taxonomy)
+    .map(function(tax) {
+      return tax.label.split('/')[1].split(' ')[0];
+    })
+    .uniq().value();
+}
 
 // return best synonyms as [synonym, gloss]
 function scoreSynonyms(senses, contextWords) {

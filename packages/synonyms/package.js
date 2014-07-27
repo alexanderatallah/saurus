@@ -13,8 +13,9 @@ Package.on_use(function (api, where) {
   api.add_files(['alchemyapi.js', 'server_methods.js'], 'server');
   api.export('AlchemyAPI', 'server');
 
-  api.add_files('synonyms.js', ['client', 'server']);
+  api.add_files('api.js', ['client', 'server']);
   api.export('Synonyms', ['client', 'server']);
+  api.export('Semantics', ['client', 'server']);
 });
 
 Package.on_test(function (api) {

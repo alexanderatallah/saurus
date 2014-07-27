@@ -1,7 +1,8 @@
 Deps.autorun ->
   words = Session.get 'words'
   i = Session.get 'currWordIndex'
-  new Synonyms(words.join(' ')).find(i)
+  if words
+    new Synonyms(words.join(' ')).find(i)
 
 Template.synonyms.hasNoEntry = ->
   syns = Session.get('synonyms')
