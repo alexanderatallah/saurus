@@ -1,5 +1,10 @@
 <template name="wikipedia">
-  <div class="popup-header popup-border-bottom {{#if hasNoEntry}}invisible{{/if}}">
+  <div class="{{#if hasNoEntry}}invisible{{/if}}">
+    <div class="popup-header popup-border-bottom">
       Wikipedia: <a href="{{wikipediaURL}}">{{wikipediaTitle}}</a>
+    </div>
+    <div class="popup-content popup-border-bottom">
+      {{ wikipediaText }}
+    </div>
   </div>
 </template>

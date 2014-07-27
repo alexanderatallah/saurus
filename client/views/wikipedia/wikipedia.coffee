@@ -5,8 +5,7 @@ Template.wikipedia.wikipediaTitle = ->
         Meteor.call('getWikipediaEntity', wordIndex, words, (error, result) ->
             return Session.set('wikipediaEntry', result)
         )
-    if Session.get('wikipediaEntry')
-        return Session.get('wikipediaEntry').title
+    return Session.get('wikipediaEntry').title if Session.get('wikipediaEntry')
     return ''
 
 Template.wikipedia.hasNoEntry = ->
@@ -27,9 +26,6 @@ Template.wikipedia.wikipediaImageURL = ->
 Template.wikipedia.wikipediaText = ->
     if !Session.get('wikipediaEntry')
         return ''
-
-    if Session.get('wikipediaText')
-        return Session.get('wikipediaText')
 
     url = "http://en.wikipedia.org/w/api.php?action=parse&page=" + encodeURIComponent(Session.get('wikipediaEntry').title)  + "&prop=text&section=0&format=json&callback=?"
 
@@ -57,7 +53,11 @@ Template.wikipedia.wikipediaText = ->
                 pText += "\n"
         pText = pText.substring(0, pText.length - 2) #Remove extra newline
         pText = pText.replace(/\[\d+\]/g, "") #Remove reference tags (e.x. [1], [4], etc)
+        pText = pText.substring(0, 150) + '...'
         console.log pText
         Session.set('wikipediaText', pText)
         return pText
+    if Session.get('wikipediaText')
+        return Session.get('wikipediaText')
     return ''
+
