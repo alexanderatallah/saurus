@@ -59,15 +59,14 @@ Template.wikipedia.wikipediaText = ->
           text[p] = text[p][0]
 
           if text[p].indexOf("</p>") is text[p].length - 5
-            htmlStrip = text[p].replace(/<(?:.|\n)*?>/g, "") #Remove HTML
-            splitNewline = htmlStrip.split(/\r\n|\r|\n/) #Split on newlines
+            htmlStrip = text[p].replace(/<(?:.|\n)*?>/g, "")
+            splitNewline = htmlStrip.split(/\r\n|\r|\n/)
             for newline of splitNewline
               unless splitNewline[newline].substring(0, 11) is "Cite error:"
                 pText += splitNewline[newline]
                 pText += "\n"
-        pText = pText.substring(0, pText.length - 2) #Remove extra newline
-        pText = pText.replace(/\[\d+\]/g, "") #Remove reference tags (e.x. [1], [4], etc)
-        # console.log pText
+        pText = pText.substring(0, pText.length - 2)
+        pText = pText.replace(/\[\d+\]/g, "")
         Session.set('wikipediaText', pText)
         return pText
     wikipediaText = Session.get('wikipediaText')

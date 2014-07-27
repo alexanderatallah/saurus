@@ -68,7 +68,7 @@ Meteor.methods(
 
         # console.log wordIndex
 
-        console.log taggedWords[wordIndex]
+        console.log 'Selected word: ' + taggedWords[wordIndex]
         if not getEntityType(taggedWords[wordIndex])
             return false
 
@@ -95,7 +95,6 @@ Meteor.methods(
             lastEntityType = entityType
 
         wikipediaPartialTitle = completeEntity.join ' '
-        console.log wikipediaPartialTitle
         wikipediaFullTitle = Async.runSync(getWikipediaTitle).error
         ret = {
             title: wikipediaFullTitle
@@ -103,8 +102,7 @@ Meteor.methods(
             imageURL: Async.runSync(getImageURL).error
         }
 
-        console.log ret
-
+        # console.log ret
         return ret
 )
 
