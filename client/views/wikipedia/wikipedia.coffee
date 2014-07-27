@@ -1,4 +1,4 @@
-Template.wikipedia.wikipediaTitle =->
+Template.wikipedia.wikipediaTitle = ->
     wordIndex = Session.get('currWordIndex')
     words = Session.get('words')
     if wordIndex && words
@@ -10,12 +10,12 @@ Template.wikipedia.wikipediaTitle =->
     return ''
 
 
-Template.wikipedia.wikipediaURL =->
+Template.wikipedia.wikipediaURL = ->
     if Session.get('wikipediaEntry')
         return Session.get('wikipediaEntry').url
     return ''
 
-Template.wikipedia.wikipediaImageURL =->
+Template.wikipedia.wikipediaImageURL = ->
     if Session.get('wikipediaEntry')
         return Session.get('wikipediaEntry').imageURL
     return ''
