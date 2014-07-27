@@ -6,10 +6,15 @@ body, html {
 
 body {
   font-family: @font-family-base;
+  background-color: rgba(0, 104, 139, 0.4);
 }
 
 #top-pane {
-  background-color: #00688B;
+  background-image: -o-linear-gradient(0deg, #00688B 0%, rgba(0, 104, 139, 0.4) 100%);
+  background-image: -moz-linear-gradient(0deg, #00688B 0%, rgba(0, 104, 139, 0.4) 100%);
+  background-image: -ms-linear-gradient(0deg, #00688B 0%, rgba(0, 104, 139, 0.4) 100%);
+  background-image: linear-gradient(-90deg, #00688B 0%, rgba(0, 104, 139, 0.4) 100%);
+
 }
 
 #main-pane, .x-padded, .editor {
@@ -44,7 +49,7 @@ h1, .h1, h2, .h2, h3, .h3 {
 }
 
 .text-input {
-  background-color: white;
+  background-color: rgba(255, 255, 255, 0.9);
 }
 
 .wikipedia-image {
