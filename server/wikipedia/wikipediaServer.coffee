@@ -1,15 +1,20 @@
+ignoredNouns =
+    'arent' : true, 'cant' : true, 'couldnt' : true, 'didnt' : true, 'doesnt' : true, 'dont' : true, 'hadnt' : true, 'hasnt' : true, 'havent' : true, 'hed' : true, 'hell' : true, 'hes' : true, 'Id' : true, 'Ill' : true, 'Im' : true, 'Ive' : true, 'isnt' : true, 'its' : true, 'lets' : true, 'mightnt' : true, 'mustnt' : true, 'shant' : true, 'shed' : true, 'shell' : true, 'shes' : true, 'shouldnt' : true, 'thats' : true, 'theres' : true, 'theyd' : true, 'theyll' : true, 'theyre' : true, 'theyve' : true, 'wed' : true, 'were' : true, 'weve' : true, 'werent' : true, 'whatll' : true, 'whatre' : true, 'whats' : true, 'whatve' : true, 'wheres' : true, 'whod' : true, 'wholl' : true, 'whore' : true, 'whos' : true, 'whove' : true, 'wont' : true, 'wouldnt' : true, 'youd' : true, 'youll' : true, 'youre' : true, 'youve' : true
+
 properNounEntities =
-    NNP: true,
+    NNP: true
     NNPS: true
 
 nounEntities =
-    NN: true,
+    NN: true
     NNS: true
 
 PROPER_NOUN_ENTITY = 'PROPER_NOUN_ENTITY'
 NOUN_ENTITY = 'NOUN_ENTITY'
 
 getEntityType = (word) ->
+    if ignoredNouns[word[0]]?
+        return null
     if properNounEntities[word[1]]?
         return PROPER_NOUN_ENTITY
     if nounEntities[word[1]]? && wordIsCapitalized(word[0])
@@ -50,16 +55,15 @@ wikipediaPartialTitle = null;
 
 Meteor.methods(
     getWikipediaEntity : (wordIndex, words) ->
-        # wordIndex = 7
-        # words = "I am driving to Mount Rushmore and Kansas State University very soon."
-
         # console.log words, wordIndex
 
-        words = new pos.Lexer().lex(words.join(' ').replace("'", ''));
+        words = words.join(' ').replace(/'/g, '')
+        words = new pos.Lexer().lex(words);
+
         taggedWords = new pos.Tagger().tag(words);
         for i in [0..wordIndex]
             word = words[i]
-            if /[\.,-\/#!?$%\^&\*;:{}=\-_`~()]/g.test(word)
+            if /[\.,-\/#!?$%\^&\*;:{}=\-_`~]/g.test(word)
                 wordIndex += 1
 
         # console.log wordIndex
@@ -79,7 +83,9 @@ Meteor.methods(
             entityType = getEntityType(word)
             if entityType and (entityType == lastEntityType or lastEntityType == null)
                 completeEntity.push(word[0])
-            else if entityType and i < wordIndex
+            else if entityType
+                if i > wordIndex
+                    break
                 completeEntity = [word[0]]
             else
                 if i < wordIndex
