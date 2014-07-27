@@ -3,7 +3,8 @@
     <div class="popup-header popup-border-bottom">
       Wikipedia: <a target="_blank" href="{{wikipediaURL}}">{{wikipediaTitle}}</a>
     </div>
-    <div class="popup-content popup-border-bottom">
+    <div class="popup-content popup-border-bottom {{#if hasNoText }} invisible {{/if}}">
+      <img class="wikipedia-image" src="{{wikipediaImageURL}}"/>
       {{ wikipediaText }}
     </div>
   </div>

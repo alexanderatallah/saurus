@@ -15,6 +15,11 @@ Template.wikipedia.hasNoEntry = ->
         return false
     return true
 
+Template.wikipedia.hasNoText = ->
+    text = Session.get('wikipediaText')
+    return false if text and text != false
+    return true
+
 Template.wikipedia.wikipediaURL = ->
     wikipediaEntry = Session.get('wikipediaEntry')
     if wikipediaEntry
@@ -56,12 +61,11 @@ Template.wikipedia.wikipediaText = ->
                 pText += "\n"
         pText = pText.substring(0, pText.length - 2) #Remove extra newline
         pText = pText.replace(/\[\d+\]/g, "") #Remove reference tags (e.x. [1], [4], etc)
-        pText = pText.substring(0, 150) + '...'
         # console.log pText
         Session.set('wikipediaText', pText)
         return pText
     wikipediaText = Session.get('wikipediaText')
     if wikipediaText
-        return wikipediaText
+        return wikipediaText.substring(0, 150) + '...'
     return ''
 

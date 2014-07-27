@@ -9,4 +9,4 @@ Template.synonyms.hasNoEntry = ->
   not syns or syns.length == 0
 
 Template.synonyms.entries = ->
-  Session.get 'synonyms'
+  Session.get('synonyms')?.slice(0, 10)

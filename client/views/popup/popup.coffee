@@ -16,5 +16,10 @@ Template.popup.helpers({
     return left
 
   hasNoEntry: =>
-    return !Session.get('wikipediaEntry')
+    syns = Session.get('synonyms')
+    hasNoSyns = not syns or syns.length == 0
+    return (!Session.get('wikipediaEntry')) and hasNoSyns
+
+  wikipediaExists: =>
+    return Session.get('wikipediaEntry')
 })

@@ -1,5 +1,12 @@
 <template name="synonyms">
   <div class="{{#if hasNoEntry}}invisible{{/if}}">
-    
+    <div class="popup-header popup-border-bottom">
+      Synonyms
+    </div>
+    <div class="popup-content">
+    {{#each entries}}
+      {{ syn }} <br/>
+    {{/each}}
+    </div>
   </div>
 </template>
