@@ -18,7 +18,7 @@
 var http = Npm.require('http');
 var fs = Npm.require('fs');
 
-var API_KEY = '9e24903ba6f71397d15825b873d56723accc15a4';
+var API_KEY = 'ba8047da3d96589824913f75da4a548ad9f133c1';
 
 //Make the class available
 // exports = module.exports = AlchemyAPI;
