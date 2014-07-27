@@ -18,8 +18,10 @@ getImageURL = (done) ->
         if err
             done(err)
         else
-            firstKey = Object.keys(body.query.pages)[0]
-            ret = body.query.pages[firstKey].thumbnail.source;
+            firstKeyObj = body.query.pages[Object.keys(body.query.pages)[0]]
+            if not firstKeyObj.thumbnail
+                return done(null)
+            ret = firstKeyObj.thumbnail.source;
             done(ret)
 
 
@@ -36,7 +38,7 @@ Meteor.methods(
         words = new pos.Lexer().lex(words.join(' '));
         taggedWords = new pos.Tagger().tag(words);
 
-        # console.log taggedWords
+        console.log taggedWords[wordIndex]
         if not isEntity(taggedWords[wordIndex])
             return false
 
@@ -60,6 +62,8 @@ Meteor.methods(
             url: Async.runSync(getWikipediaLink).error
             imageURL: Async.runSync(getImageURL).error
         }
+
+        console.log ret
 
         return ret
 )

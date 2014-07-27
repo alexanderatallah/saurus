@@ -1,7 +1,5 @@
 {
   "packages": {
-    "npm": {
-      "request-json": "0.4.11"
-    }
+    "npm": {}
   }
 }

@@ -1,8 +1,0 @@
-{
-  "dependencies": {
-    "pos": "0.1.7",
-    "q": "1.0.1",
-    "request-json": "0.4.11",
-    "underscore": "1.6.0"
-  }
-}
