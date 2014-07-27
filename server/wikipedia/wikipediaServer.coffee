@@ -20,12 +20,12 @@ wikipediaTitle = null;
 
 Meteor.methods(
     getWikipediaEntity : (wordIndex, words) ->
-        # return 'hi'
-        wordIndex = 7
-        words = "I am driving to Mount Rushmore and Kansas State University very soon."
-        words = new pos.Lexer().lex(words);
+        # wordIndex = 7
+        # words = "I am driving to Mount Rushmore and Kansas State University very soon."
+        words = new pos.Lexer().lex(words.join(' '));
         taggedWords = new pos.Tagger().tag(words);
 
+        # console.log taggedWords
         if not isEntity(taggedWords[wordIndex])
             return false
 
