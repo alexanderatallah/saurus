@@ -12,9 +12,20 @@ getWikipediaLink = (done) ->
         else
             done(BASE_URL + '/wiki/' + encodeURIComponent(body[1][0]))
 
+getImageURL = (done) ->
+    url = "/w/api.php?action=query&titles=" + encodeURIComponent(wikipediaTitle) + "&prop=pageimages&format=json&pithumbsize=100"
+    client.get url, (err, res, body) ->
+        if err
+            done(err)
+        else
+            firstKey = Object.keys(body.query.pages)[0]
+            ret = body.query.pages[firstKey].thumbnail.source;
+            done(ret)
+
+
 pos = Meteor.require('pos')
-request = Meteor.require('request-json');
 BASE_URL = 'http://en.wikipedia.org'
+request = Meteor.require('request-json');
 client = request.newClient(BASE_URL);
 wikipediaTitle = null;
 
@@ -32,6 +43,10 @@ Meteor.methods(
         completeEntity = []
         for i in [Math.max(wordIndex - 5, 0).. Math.min(wordIndex + 5, taggedWords.length)] by 1
             word = taggedWords[i]
+            if not word
+                continue
+            # console.log i
+            # console.log word
             if isEntity(word)
                 completeEntity.push(word[0])
             else
@@ -43,13 +58,10 @@ Meteor.methods(
         ret = {
             title: wikipediaTitle
             url: Async.runSync(getWikipediaLink).error
+            imageURL: Async.runSync(getImageURL).error
         }
+
         return ret
-        # return getWikipediaLinkSync(wikipediaTitle);
-            # return [
-            #     wikipediaTitle,
-            #     url
-            # ]
 )
 
 
