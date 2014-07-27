@@ -5,15 +5,15 @@ properEntities =
 isEntity = (word) ->
     return properEntities[word[1]]?
 
-getWikipediaLink = (done) ->
-    client.get '/w/api.php?action=opensearch&search=' + encodeURIComponent(wikipediaTitle) + '&format=json', (err, res, body) ->
+getWikipediaTitle = (done) ->
+    client.get '/w/api.php?action=opensearch&search=' + encodeURIComponent(wikipediaPartialTitle) + '&format=json', (err, res, body) ->
         if err
             done(err)
         else
-            done(BASE_URL + '/wiki/' + encodeURIComponent(body[1][0]))
+            done(body[1][0])
 
 getImageURL = (done) ->
-    url = "/w/api.php?action=query&titles=" + encodeURIComponent(wikipediaTitle) + "&prop=pageimages&format=json&pithumbsize=100"
+    url = "/w/api.php?action=query&titles=" + encodeURIComponent(wikipediaPartialTitle) + "&prop=pageimages&format=json&pithumbsize=100"
     client.get url, (err, res, body) ->
         if err
             done(err)
@@ -29,7 +29,7 @@ pos = Meteor.require('pos')
 BASE_URL = 'http://en.wikipedia.org'
 request = Meteor.require('request-json');
 client = request.newClient(BASE_URL);
-wikipediaTitle = null;
+wikipediaPartialTitle = null;
 
 Meteor.methods(
     getWikipediaEntity : (wordIndex, words) ->
@@ -63,10 +63,12 @@ Meteor.methods(
                     completeEntity = []
                 else
                     break
-        wikipediaTitle = completeEntity.join ' '
+
+        wikipediaPartialTitle = completeEntity.join ' '
+        wikipediaFullTitle = Async.runSync(getWikipediaTitle).error
         ret = {
-            title: wikipediaTitle
-            url: Async.runSync(getWikipediaLink).error
+            title: wikipediaFullTitle
+            url: BASE_URL + '/wiki/' + encodeURIComponent(wikipediaFullTitle)
             imageURL: Async.runSync(getImageURL).error
         }
 
