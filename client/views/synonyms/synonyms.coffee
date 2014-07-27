@@ -10,3 +10,10 @@ Template.synonyms.hasNoEntry = ->
 
 Template.synonyms.entries = ->
   Session.get('synonyms')?.slice(0, 10)
+
+Template.synonyms.hasGloss = (obj) =>
+  return obj.gloss?.length > 4
+
+Template.synonyms.formatGloss = (gloss) =>
+  return gloss if gloss.length < 35
+  return gloss.substring(0, 32) + '...'
