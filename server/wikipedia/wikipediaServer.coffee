@@ -37,11 +37,14 @@ Meteor.methods(
         # words = "I am driving to Mount Rushmore and Kansas State University very soon."
 
         # console.log words, wordIndex
-        sentence = words.join(' ').replace(/[\.,-\/#!'?$%\^&\*;:{}=\-_`~()]/g,"")
-        # console.log sentence
-        words = new pos.Lexer().lex(sentence);
+        words = new pos.Lexer().lex(words.join(' ').replace("'", ''));
         taggedWords = new pos.Tagger().tag(words);
+        for i in [0..wordIndex]
+            word = words[i]
+            if /[\.,-\/#!?$%\^&\*;:{}=\-_`~()]/g.test(word)
+                wordIndex += 1
 
+        # console.log wordIndex
         console.log taggedWords[wordIndex]
         if not isEntity(taggedWords[wordIndex])
             return false
