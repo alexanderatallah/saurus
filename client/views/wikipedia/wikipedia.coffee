@@ -5,29 +5,34 @@ Template.wikipedia.wikipediaTitle = ->
         Meteor.call('getWikipediaEntity', wordIndex, words, (error, result) ->
             return Session.set('wikipediaEntry', result)
         )
-    return Session.get('wikipediaEntry').title if Session.get('wikipediaEntry')
+    wikipediaEntry = Session.get('wikipediaEntry')
+    return wikipediaEntry.title if wikipediaEntry
     return ''
 
 Template.wikipedia.hasNoEntry = ->
-    if Session.get('wikipediaEntry') and Session.get('wikipediaEntry') != false
+    wikipediaEntry = Session.get('wikipediaEntry')
+    if wikipediaEntry and wikipediaEntry != false
         return false
     return true
 
 Template.wikipedia.wikipediaURL = ->
-    if Session.get('wikipediaEntry')
-        return Session.get('wikipediaEntry').url
+    wikipediaEntry = Session.get('wikipediaEntry')
+    if wikipediaEntry
+        return wikipediaEntry.url
     return ''
 
 Template.wikipedia.wikipediaImageURL = ->
-    if Session.get('wikipediaEntry')
-        return Session.get('wikipediaEntry').imageURL
+    wikipediaEntry = Session.get('wikipediaEntry')
+    if wikipediaEntry
+        return wikipediaEntry.imageURL
     return ''
 
 Template.wikipedia.wikipediaText = ->
-    if !Session.get('wikipediaEntry')
+    wikipediaEntry = Session.get('wikipediaEntry')
+    if !wikipediaEntry
         return ''
 
-    url = "http://en.wikipedia.org/w/api.php?action=parse&page=" + encodeURIComponent(Session.get('wikipediaEntry').title)  + "&prop=text&section=0&format=json&callback=?"
+    url = "http://en.wikipedia.org/w/api.php?action=parse&page=" + encodeURIComponent(wikipediaEntry.title)  + "&prop=text&section=0&format=json&callback=?"
 
     $.getJSON url, (data) ->
       for text of data.parse.text
@@ -35,7 +40,6 @@ Template.wikipedia.wikipediaText = ->
         pText = ""
         for p of text
 
-          #Remove html comment
           text[p] = text[p].split("<!--")
           if text[p].length > 1
             text[p][0] = text[p][0].split(/\r\n|\r|\n/)
@@ -43,7 +47,6 @@ Template.wikipedia.wikipediaText = ->
             text[p][0] += "</p> "
           text[p] = text[p][0]
 
-          #Construct a string from paragraphs
           if text[p].indexOf("</p>") is text[p].length - 5
             htmlStrip = text[p].replace(/<(?:.|\n)*?>/g, "") #Remove HTML
             splitNewline = htmlStrip.split(/\r\n|\r|\n/) #Split on newlines
@@ -54,10 +57,11 @@ Template.wikipedia.wikipediaText = ->
         pText = pText.substring(0, pText.length - 2) #Remove extra newline
         pText = pText.replace(/\[\d+\]/g, "") #Remove reference tags (e.x. [1], [4], etc)
         pText = pText.substring(0, 150) + '...'
-        console.log pText
+        # console.log pText
         Session.set('wikipediaText', pText)
         return pText
-    if Session.get('wikipediaText')
-        return Session.get('wikipediaText')
+    wikipediaText = Session.get('wikipediaText')
+    if wikipediaText
+        return wikipediaText
     return ''
 
